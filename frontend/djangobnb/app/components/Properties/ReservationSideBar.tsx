@@ -24,10 +24,16 @@ const ReservationSideBar = () => {
                 <p>$800</p>
             </div>
 
-            <div className="mb-4 flex justify-between align-center">
+            <div className="mb-4 flex justify-between align-center ">
                 <p> DjangoBNB fee</p>
 
                 <p>$40</p>
+            </div>
+
+            <div className="mb-4 flex justify-between align-center font-bold">
+                <p> Total</p>
+
+                <p>$840</p>
             </div>
 
             <hr />
