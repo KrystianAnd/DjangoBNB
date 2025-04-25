@@ -12,8 +12,8 @@ class CustomUserMeneager(UserManager):
         
         email = self.normalize_email(email)
         user = self.model(email=email, name=name, **extra_fields)
-        user.set.password(password)
-        user.save(using=self.db)
+        user.set_password(password)
+        user.save(using=self._db)
 
         return user
     
@@ -25,7 +25,7 @@ class CustomUserMeneager(UserManager):
     def create_superuser(self, name=None, email=None, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-        return self.create_superuser(name, email, password, **extra_fields)
+        return self.create_user(name, email, password, **extra_fields)
     
 
 class User(AbstractBaseUser, PermissionsMixin):
