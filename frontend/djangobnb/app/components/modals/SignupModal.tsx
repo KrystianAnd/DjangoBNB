@@ -2,26 +2,66 @@
 
 import Modal from "./modal";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import useSignupModal from "@/app/hooks/useSignupModal";
 import CustomButton from "../forms/CustomButton";
+import apiService from "@/app/services/apiService";
+import { handleLogin } from "@/app/lib/actions";
 
 const SignupModal = () =>{
+    const router = useRouter();
     const signupModal = useSignupModal()
+    const [email, setEmail] = useState('');
+    const [errors, setErrors] = useState<string[]>([]);
+    const [password1, setPassword1] = useState('');
+    const [password2, setPassword2] = useState('');
+
+    const submitSignup = async () => {
+        const formData = {
+            email : email,
+            password1 : password1,
+            password2 : password2,
+        }
+
+        const response = await apiService.post('/api/auth/register/', JSON.stringify(formData));
+        if (response.access) {
+            handleLogin(response.user.pk, response.access, response.refresh)
+            signupModal.close()
+
+            router.push('/')
+        }else{
+            const tmpErrors: string[] = Object.values(response).map((error: any) => {
+                return error;
+            })
+            setErrors(tmpErrors);
+        }
+    }
 
     const content = (
         <>
-        <form className="space-y-4">
-            <input placeholder="Your email adress" type="email" className="w-full h-[54px] border border-gray-300 rounded-xl px-4" />
+        <form 
+            action={submitSignup}
+            className="space-y-4"
+        >
+            <input onChange={(e) => setEmail(e.target.value)} placeholder="Your email adress" type="email" className="w-full h-[54px] border border-gray-300 rounded-xl px-4" />
 
-            <input placeholder="Your password" type="password" className="w-full h-[54px] border border-gray-300 rounded-xl px-4" />
+            <input onChange={(e) => setPassword1(e.target.value)} placeholder="Your password" type="password" className="w-full h-[54px] border border-gray-300 rounded-xl px-4" />
 
-            <input placeholder="Repeat password" type="password" className="w-full h-[54px] border border-gray-300 rounded-xl px-4" />
+            <input onChange={(e) => setPassword2(e.target.value)} placeholder="Repeat password" type="password" className="w-full h-[54px] border border-gray-300 rounded-xl px-4" />
 
-            <div className="p-5 bg-[#FF5A60] text-white opacity-80 rounded-xl">The error message</div> 
-
+            {errors.map((error, index) => {
+                return(
+                    <div  
+                        key = {`error_${index}`}
+                        className="p-5 bg-[#FF5A60] text-white opacity-80 rounded-xl"
+                    >
+                        {error}
+                    </div> 
+                )
+            })}
             <CustomButton 
                 label="Submit"  
-                onClick={() => console.log('test')}
+                onClick={submitSignup}
             />
         </form>
         </>
@@ -31,7 +71,7 @@ const SignupModal = () =>{
         <Modal
             isOpen={signupModal.isOpen}
             close={signupModal.close}
-            label="Log in"
+            label="Sign up"
             content={content}
         />
     )
