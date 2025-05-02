@@ -24,14 +24,18 @@ export async function handleLogin(userId: string , accessToken : string , refres
 } 
 
 export async function resetAuthCookies() {
-    const cookieStore = await cookies();
+    const cookieStore = await cookies(); 
     cookieStore.set('session_userid', '');
     cookieStore.set('session_access_token', '');
     cookieStore.set('session_refresh_token', '');
 }
 
+export async function getUserId() {
+    const userId = (await cookies()).get('session_userid')?.value; 
+    return userId || null;
+}
 
-export async function getUserId(){
-    const userId = (await cookies()).get('session_userid')?.value
-    return userId ? userId : null
+export async function getAccessToken() {
+    const accessToken = (await cookies()).get('session_access_token')?.value; 
+    return accessToken || null;
 }
