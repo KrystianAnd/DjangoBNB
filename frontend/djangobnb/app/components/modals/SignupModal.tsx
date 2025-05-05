@@ -12,18 +12,26 @@ const SignupModal = () =>{
     const router = useRouter();
     const signupModal = useSignupModal()
     const [email, setEmail] = useState('');
+    const [name, setName] = useState('');
     const [errors, setErrors] = useState<string[]>([]);
     const [password1, setPassword1] = useState('');
     const [password2, setPassword2] = useState('');
+    const [avatar, setAvatar] = useState<File | null>(null);
 
     const submitSignup = async () => {
-        const formData = {
-            email : email,
-            password1 : password1,
-            password2 : password2,
-        }
 
-        const response = await apiService.postWithoutToken('/api/auth/register/', JSON.stringify(formData));
+        const formData = new FormData();
+        formData.append("email", email);
+        formData.append("name", name);
+        formData.append("password1", password1);
+        formData.append("password2", password2);
+        if (avatar) {
+            formData.append("avatar", avatar); 
+        }
+        
+        console.log([...formData]);
+
+        const response = await apiService.postWithoutToken('/api/auth/register/', formData);
         if (response.access) {
             handleLogin(response.user.pk, response.access, response.refresh)
             signupModal.close()
@@ -45,9 +53,22 @@ const SignupModal = () =>{
         >
             <input onChange={(e) => setEmail(e.target.value)} placeholder="Your email adress" type="email" className="w-full h-[54px] border border-gray-300 rounded-xl px-4" />
 
+            <input onChange={(e) => setName(e.target.value)} placeholder="Your username " type="text" className="w-full h-[54px] border border-gray-300 rounded-xl px-4" />
+
             <input onChange={(e) => setPassword1(e.target.value)} placeholder="Your password" type="password" className="w-full h-[54px] border border-gray-300 rounded-xl px-4" />
 
             <input onChange={(e) => setPassword2(e.target.value)} placeholder="Repeat password" type="password" className="w-full h-[54px] border border-gray-300 rounded-xl px-4" />
+
+            <input 
+                type="file" 
+                accept="image/*" 
+                onChange={(e) => {
+                    if (e.target.files && e.target.files[0]) {
+                    setAvatar(e.target.files[0]);
+                    }
+                }} 
+                className="w-full h-[54px] border border-gray-300 rounded-xl px-4 py-3"
+            />
 
             {errors.map((error, index) => {
                 return(
