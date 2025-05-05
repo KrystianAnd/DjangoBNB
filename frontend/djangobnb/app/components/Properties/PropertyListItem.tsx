@@ -6,6 +6,7 @@ interface PropertyProps{
     property: PropertyType
 }
 
+
 const PropertyListItem: React.FC<PropertyProps> = ({
     property
 }) => {
