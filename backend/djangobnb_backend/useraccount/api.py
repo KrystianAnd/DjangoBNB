@@ -25,9 +25,6 @@ def reservations_list(request):
     return JsonResponse(serializer.data, safe=False)
 
 
-
-
-
 @api_view(['POST'])
 @parser_classes([MultiPartParser, FormParser])
 def register_user(request):
