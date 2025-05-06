@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from .models import User
 from django.contrib.auth import get_user_model
+from dj_rest_auth.registration.serializers import RegisterSerializer
+
 
 class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
@@ -13,23 +15,14 @@ class UserDetailSerializer(serializers.ModelSerializer):
 
 User = get_user_model()
 
-class RegisterSerializer(serializers.ModelSerializer):
-    password1 = serializers.CharField(write_only=True)
-    password2 = serializers.CharField(write_only=True)
 
-    class Meta:
-        model = User
-        fields = ['email', 'name', 'avatar', 'password1', 'password2']
+class CustomRegisterSerializer(RegisterSerializer):
+    name = serializers.CharField(required=False, max_length=150)
+    avatar = serializers.ImageField(required=False)
 
-    def validate(self, data):
-        if data['password1'] != data['password2']:
-            raise serializers.ValidationError("Passwords do not match")
-        return data
-
-    def create(self, validated_data):
-        validated_data.pop('password2')
-        password = validated_data.pop('password1')
-        user = User(**validated_data)
-        user.set_password(password)
+    def custom_signup(self, request, user):
+        user.name = self.validated_data.get('name', '')
+        avatar = self.validated_data.get('avatar', None)
+        if avatar:
+            user.avatar = avatar
         user.save()
-        return user

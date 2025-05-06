@@ -16,9 +16,10 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
     const toggleFavorite = async (e: React.MouseEvent<HTMLDivElement>) => {
         e.stopPropagation();
 
-        const response = await apiService.post(`/api/properties/${id}/toggle_favorite/`, {})
-
+        const response = await apiService.post(`/api/properties/${id}/toggle_favorite/`, {});
+        console.log("API toggle_favorite response:", response);
         markFavorite(response.is_favorite);
+        
     }
 
     return (
@@ -33,4 +34,4 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
     )
 }
 
-export default FavoriteButton
+export default FavoriteButton;

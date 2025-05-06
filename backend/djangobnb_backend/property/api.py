@@ -6,16 +6,14 @@ from .serializers import PropertiesListSerializer, PropertiesDetailSerializer, R
 from .forms import PropertyForm
 from useraccount.models import User
 
-
-
 @api_view(['GET'])
 @authentication_classes([])
 @permission_classes([])
 def properties_list(request):
     try:
-        token = request.META['HTTP_AUTHORIZATION'].split('Bearer '[1])
+        token = request.META['HTTP_AUTHORIZATION'].split('Bearer ')[1]
         token = AccessToken(token)
-        user_id = token.payload['user.id']
+        user_id = token.payload['user_id']
         user = User.objects.get(pk=user_id)
     except Exception as e:
         user = None
@@ -23,10 +21,14 @@ def properties_list(request):
     favorites = []
     properties = Property.objects.all()
 
+    is_favorite = request.GET.get('is_favorite', '')
     landlord_id = request.GET.get('landlord_id', '')
 
     if landlord_id:
         properties = properties.filter(landlord_id=landlord_id)
+
+    if is_favorite:
+        properties = properties.filter(favorited__in=[user])
 
     if user:
         for property in properties:

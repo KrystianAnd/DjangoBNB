@@ -48,7 +48,10 @@ const SignupModal = () =>{
     const content = (
         <>
         <form 
-            action={submitSignup}
+            onSubmit={(e) => {
+                e.preventDefault(); 
+                submitSignup();
+            }}
             className="space-y-4"
         >
             <input onChange={(e) => setEmail(e.target.value)} placeholder="Your email adress" type="email" className="w-full h-[54px] border border-gray-300 rounded-xl px-4" />
@@ -82,7 +85,7 @@ const SignupModal = () =>{
             })}
             <CustomButton 
                 label="Submit"  
-                onClick={submitSignup}
+                type="submit"
             />
         </form>
         </>

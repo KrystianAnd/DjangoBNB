@@ -25,29 +25,3 @@ def reservations_list(request):
     return JsonResponse(serializer.data, safe=False)
 
 
-@api_view(['POST'])
-@parser_classes([MultiPartParser, FormParser])
-def register_user(request):
-
-    serializer = RegisterSerializer(data=request.data)
-
-    if serializer.is_valid():
-        user = serializer.save()
-
-        refresh = RefreshToken.for_user(user)
-        access_token = str(refresh.access_token)
-        refresh_token = str(refresh)
-
-        return JsonResponse({
-            "user": {
-                "id": str(user.id),
-                "email": user.email,
-                "name": user.name,
-                "avatar": user.avatar.url if user.avatar else None
-            },
-            "access": access_token,
-            "refresh": refresh_token
-        })
-    else:
-        print("serializer.errors:", serializer.errors)  
-    return JsonResponse(serializer.errors, status=400)

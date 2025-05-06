@@ -1,23 +1,27 @@
 import React from "react";
 
-interface CustomButtonProps{
-    label : string;
+interface CustomButtonProps {
+    label: string;
     className?: string;
-    onClick: () => void;
+    onClick?: () => void;
+    type?: "button" | "submit" | "reset";
 }
+
 const CustomButton: React.FC<CustomButtonProps> = ({
     label,
-    className,
-    onClick
+    className = '',
+    onClick,
+    type = "button"
 }) => {
     return (
-        <div 
-        onClick={onClick}
-        className={` cursor-pointer py-4 bg-[#FF5A60] hover:bg-[#d50027] transition rounded-xl text-white text-center ${className} `}
+        <button
+            type={type}
+            onClick={onClick}
+            className={`cursor-pointer py-4 bg-[#FF5A60] hover:bg-[#d50027] transition rounded-xl text-white text-center w-full ${className}`}
         >
             {label}
-        </div>
-    )
-}
+        </button>
+    );
+};
 
 export default CustomButton;
