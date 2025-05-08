@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from .models import Conversation, ConversationMessage
 from .serializers import ConversationsListSerializer, ConversationDetailSerializer, ConversationMessageSerializer
+from useraccount.models import User
 
 @api_view(['GET'])
 def conversations_list(request):
@@ -20,3 +21,16 @@ def conversations_detail(request, pk):
         'conversation': conversation_serializer.data,
         'messages': messages_serializer.data
     }, safe=False)
+
+@api_view(['GET'])
+def conversations_start(requset, user_id):
+    conversations = Conversation.objects.filter(users__in=[user_id]).filter(users__in=[requset.user.id])
+    if conversations.count() >0:
+        conversation = conversations.first()
+        return JsonResponse({'success':True, 'conversation_id': conversation.id})
+    else:
+        user = User.objects.get(pk=user_id)
+        conversation = Conversation.objects.create()
+        conversation.users.add(requset.user)
+        conversation.users.add(user)
+        return JsonResponse({'success':True, 'conversation_id': conversation.id})
