@@ -29,6 +29,9 @@ const ReservationSideBar: React.FC<ReservationSideBarProps> = ({
 }) => {
     const loginModal = useLoginModal();
 
+    const [message, setMessage] = useState<string | null>(null);
+    const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
+
     const [fee, setFee] = useState<number>(0);
     const [nights, setNights] = useState<number>(1);
     const [total_price, setTotal_price] = useState<number>(0);
@@ -39,28 +42,34 @@ const ReservationSideBar: React.FC<ReservationSideBarProps> = ({
     const guestsRange = Array.from({ length: property.guests}, (_, index) => index + 1)
 
     const performBooking = async () => {
-        if(userId){
-            if (dateRange.startDate && dateRange.endDate){
+        if (userId) {
+            if (dateRange.startDate && dateRange.endDate) {
                 const formData = new FormData();
                 formData.append('guests', guests);
                 formData.append('start_date', format(dateRange.startDate, 'yyyy-MM-dd'));
                 formData.append('end_date', format(dateRange.endDate, 'yyyy-MM-dd'));
                 formData.append('number_of_nights', nights.toString());
                 formData.append('total_price', total_price.toString());
-
-                const response = await apiService.post(`/api/properties/${property.id}/book/`, formData);
-
-                if(response.success){
-                    console.log('Bookin successful');
-                }else{
-                    console.log('Something went wrong ...');
+    
+                try {
+                    const response = await apiService.post(`/api/properties/${property.id}/book/`, formData);
+                    if (response.success) {
+                        setMessage('Reservation successful!');
+                        setIsSuccess(true);
+                    } else {
+                        setMessage('Reservation failed. Please try again.');
+                        setIsSuccess(false);
+                    }
+                } catch (error) {
+                    setMessage('An error occurred. Please try again later.');
+                    setIsSuccess(false);
                 }
             }
-        }else{
+        } else {
             loginModal.open();
         }
-    }
-
+    };
+    
     const _setDateRange = (selection: any) => {
         const newStartDate = new Date(selection.startDate);
         const newEndDate = new Date(selection.endDate);
@@ -163,6 +172,14 @@ const ReservationSideBar: React.FC<ReservationSideBarProps> = ({
 
                 <p>${total_price}</p>
             </div>
+
+            <hr />
+
+            {message && (
+                <div className={`mt-4 mb-4 p-3 rounded-xl ${isSuccess ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                    {message}
+                </div>
+            )}
 
             <hr />
         </aside>

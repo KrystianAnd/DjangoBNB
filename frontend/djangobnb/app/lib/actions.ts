@@ -1,10 +1,9 @@
 'use server';
 
-import { error } from "console";
 import { cookies } from "next/headers";
 
 export async function handleRefresh(){
-    console.log('handleRefesh');
+    
 
     const refreshToken = await getRefreshToken();
 
@@ -20,7 +19,7 @@ export async function handleRefresh(){
     })
         .then(response => response.json())
         .then((json) => {
-            console.log('Response - Refresh:', json);
+            
 
             if (json.access){
                   cookies().set('session_access_token', json.access, {
@@ -36,7 +35,7 @@ export async function handleRefresh(){
             }
         })
         .catch((error) =>{
-            console.log('error', error);
+            
 
             resetAuthCookies();
         })

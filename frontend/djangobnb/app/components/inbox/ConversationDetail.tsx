@@ -34,7 +34,7 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
     )
 
     useEffect(() =>{
-        console.log("Connection state changed", readyState)
+        
     }, [readyState]);
 
     useEffect(() =>{
@@ -55,7 +55,7 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
     }, [lastJsonMessage]);
 
     const sendMessage = async () => {
-        console.log('sendMessage'),
+        
 
         sendJsonMessage({
             event: 'chat_message',

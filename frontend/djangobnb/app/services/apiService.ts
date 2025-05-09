@@ -2,7 +2,7 @@ import { getAccessToken } from "../lib/actions";
 
 const apiService = {
     get: async function (url:string): Promise<any> {
-        console.log('Get',url);
+        
 
         const token = await getAccessToken();
 
@@ -17,7 +17,7 @@ const apiService = {
             })
                 .then(response => response.json())
                 .then((json) =>{
-                    console.log('Response:', json);
+                    
 
                     resolve(json);
                 })
@@ -28,7 +28,7 @@ const apiService = {
     },
 
     post: async function (url: string , data: any): Promise <any>{
-        console.log('post', url , data);
+        
 
 
         const token = await getAccessToken();
@@ -43,7 +43,7 @@ const apiService = {
             })
                 .then(response => response.json())
                 .then((json) =>{
-                    console.log('Response:', json);
+                    
 
                     resolve(json);
                 })
@@ -55,7 +55,7 @@ const apiService = {
         },
 
         postWithoutToken: async function (url: string, data: any): Promise<any> {
-            console.log('post', url, data);
+            
         
             const isFormData = data instanceof FormData;
         
@@ -74,7 +74,7 @@ const apiService = {
                 })
                     .then(response => response.json())
                     .then((json) => {
-                        console.log('Response:', json);
+                        
                         resolve(json);
                     })
                     .catch((error) => {

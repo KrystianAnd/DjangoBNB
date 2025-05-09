@@ -18,6 +18,7 @@ const Navbar = async () => {
                             alt="DjangoBNB logo"
                             width={180}
                             height={38}
+                            priority
                         />
                     </Link>
 

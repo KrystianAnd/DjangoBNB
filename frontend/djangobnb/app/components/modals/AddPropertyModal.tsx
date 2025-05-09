@@ -39,7 +39,7 @@ const AddPropertyModal = () => {
     }
 
     const submitForm = async () => {
-        console.log('submit form');
+        
 
         if (
             dataCategory &&
@@ -64,14 +64,13 @@ const AddPropertyModal = () => {
             const response = await apiService.post('/api/properties/create/', formData);
 
             if (response.success){
-                console.log('SUCCESS');
-
+                
+                alert('Property added successfully');
                 router.push('/?added=true');
-
                 addPropertyModal.close();
             }else {
-                console.log('Error');
-
+                
+                alert('Reservation failed. Please check if all field are completed');
                 const tmpErrors: string[] = Object.values(response).map((error: any) =>{
                     return error;
                 })

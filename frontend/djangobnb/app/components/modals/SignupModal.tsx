@@ -29,7 +29,7 @@ const SignupModal = () =>{
             formData.append("avatar", avatar); 
         }
         
-        console.log([...formData]);
+        
 
         const response = await apiService.postWithoutToken('/api/auth/register/', formData);
         if (response.access) {
