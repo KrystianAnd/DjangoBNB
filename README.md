@@ -43,7 +43,114 @@
 ```bash
 git clone https://github.com/KrystianAnd/DjangoBNB
 cd djangobnb
+cd backend
+cd djangobnb_backend
+```
 
 ### 2. Run with Docker
 ```bash
 docker-compose up --build
+```
+
+### 3. Run frontend manually (optional)
+
+
+
+```bash
+cd frontend
+cd djangobnb
+npm install
+npm run dev
+```
+
+## 🧩 Features
+
+* 🔐 Authentication with JWT (register, login, logout, password reset)
+* 🏠 Create and manage property listings
+* 📍 Search properties by location and date
+* 📸 Upload and view images
+* 📅 Make and manage reservations
+* 💬 Real-time messaging with WebSockets
+* ⭐ Leave and view reviews
+* 🌐 Country and region selector
+
+## 📁 Project Structure
+
+```
+djangobnb/
+├── backend/           # Django backend
+├── frontend/          # Next.js frontend
+├── docker-compose.yml
+├── Dockerfile
+└── README.md
+```
+
+## ⚙️ Environment Variables
+
+You should create `.env` files for both backend and frontend with all necessary secrets and configuration. Example:
+
+### `.env` (Backend)
+
+```
+DEBUG=True
+SECRET_KEY=your-django-secret-key
+POSTGRES_DB=your-db-name
+POSTGRES_USER=your-db-user
+POSTGRES_PASSWORD=your-db-password
+```
+
+### `.env.local` (Frontend)
+
+```
+NEXT_PUBLIC_API_URL=http://localhost:8000/api
+```
+
+## 🧪 Development Tips
+
+Use hot-reloading during development for both frontend and backend.
+
+To rebuild the backend:
+
+```bash
+docker-compose up --build backend
+```
+
+To rebuild the frontend:
+
+```bash
+docker-compose up --build frontend
+```
+
+## 🌐 Deployment
+
+### Backend
+
+Can be deployed to:
+
+* Render
+* Railway
+* Heroku
+* DigitalOcean
+* AWS EC2 or Lightsail
+
+### Frontend
+
+Optimized for:
+
+* Vercel
+* Netlify
+* Cloudflare Pages
+
+## 👤 Author
+
+**Krystian Andrzejak**
+🌐 [webbykrystian.com](https://webbykrystian.com)
+
+## 📄 License
+
+Licensed under the **MIT License** – free to use, modify, and distribute.
+
+```
+
+Gotowe do wklejenia ✨ Potrzebujesz też pliku `docker-compose.yml` albo `.env` do backendu?
+```
