@@ -54,7 +54,7 @@ docker-compose up --build
 
 ### 3. Run frontend manually (optional)
 
-
+To run frontend you neet do go back into the main forlder DjangoBNB
 
 ```bash
 cd frontend
@@ -81,29 +81,10 @@ djangobnb/
 ├── backend/           # Django backend
 ├── frontend/          # Next.js frontend
 ├── docker-compose.yml
-├── Dockerfile
+├── .env.dev
 └── README.md
 ```
 
-## ⚙️ Environment Variables
-
-You should create `.env` files for both backend and frontend with all necessary secrets and configuration. Example:
-
-### `.env` (Backend)
-
-```
-DEBUG=True
-SECRET_KEY=your-django-secret-key
-POSTGRES_DB=your-db-name
-POSTGRES_USER=your-db-user
-POSTGRES_PASSWORD=your-db-password
-```
-
-### `.env.local` (Frontend)
-
-```
-NEXT_PUBLIC_API_URL=http://localhost:8000/api
-```
 
 ## 🧪 Development Tips
 
@@ -114,43 +95,31 @@ To rebuild the backend:
 ```bash
 docker-compose up --build backend
 ```
+To run the backend:
 
-To rebuild the frontend:
+You must be in djangobnb_backend folder !!!
 
 ```bash
-docker-compose up --build frontend
+docker-compose up 
 ```
 
-## 🌐 Deployment
+To run in the background the backend:
 
-### Backend
+You must be in djangobnb_backend folder !!!
 
-Can be deployed to:
+```bash
+docker-compose up -d
+```
 
-* Render
-* Railway
-* Heroku
-* DigitalOcean
-* AWS EC2 or Lightsail
+To run the frontend:
 
-### Frontend
+```bash
+npm run dev
+```
 
-Optimized for:
-
-* Vercel
-* Netlify
-* Cloudflare Pages
-
-## 👤 Author
-
-**Krystian Andrzejak**
-🌐 [webbykrystian.com](https://webbykrystian.com)
 
 ## 📄 License
 
 Licensed under the **MIT License** – free to use, modify, and distribute.
 
-```
 
-Gotowe do wklejenia ✨ Potrzebujesz też pliku `docker-compose.yml` albo `.env` do backendu?
-```
