@@ -37,7 +37,6 @@
 
 ### Prerequisites
 - Docker
-- Node.js (only if running frontend manually)
 
 ### 1. Clone the repository
 ```bash
