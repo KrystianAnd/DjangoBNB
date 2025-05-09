@@ -43,12 +43,13 @@
 ```bash
 git clone https://github.com/KrystianAnd/DjangoBNB
 cd djangobnb
-cd backend
-cd djangobnb_backend
+
 ```
 
 ### 2. Run with Docker
 ```bash
+cd backend
+cd djangobnb_backend
 docker-compose up --build
 ```
 
@@ -71,8 +72,9 @@ npm run dev
 * 📸 Upload and view images
 * 📅 Make and manage reservations
 * 💬 Real-time messaging with WebSockets
-* ⭐ Leave and view reviews
+* ⭐ Mark property as a favorite
 * 🌐 Country and region selector
+* 💻 Real time conversation between users
 
 ## 📁 Project Structure
 
