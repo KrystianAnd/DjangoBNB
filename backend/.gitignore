@@ -19,6 +19,7 @@ Thumbs.db
 
 # Pliki środowiskowe
 .env
+.env.dev
 
 # Foldery IDE
 .vscode/
