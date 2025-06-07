@@ -1,30 +1,16 @@
-# Środowiska wirtualne
 env/
 venv/
-
-# Pliki Pythona
 __pycache__/
 *.py[cod]
 *.pyo
-
-# Pliki logów
 *.log
-
-# Pliki baz danych
 *.sqlite3
-
-# Pliki systemowe
 .DS_Store
 Thumbs.db
-
-# Pliki środowiskowe
 .env
 .env.dev
-
-# Foldery IDE
 .vscode/
 .idea/
-
-# Migracje Django (opcjonalnie – jeśli tworzysz je dynamicznie)
+)
 */migrations/__pycache__/
 */migrations/*.pyc
