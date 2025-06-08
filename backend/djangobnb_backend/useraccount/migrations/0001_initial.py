@@ -34,7 +34,7 @@ class Migration(migrations.Migration):
                 'abstract': False,
             },
             managers=[
-                ('objects', useraccount.models.CustomUserMeneager()),
+                ('objects', useraccount.models.CustomUserManager()),
             ],
         ),
     ]
