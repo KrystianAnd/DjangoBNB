@@ -84,12 +84,13 @@ export async function resetAuthCookies() {
 
 export async function getUserId() {
     const userId = (await cookies()).get('session_userid')?.value; 
+    console.log('👤 userId from cookie:', userId);
     return userId ? userId: null;
 }
 
 export async function getAccessToken() {
     let accessToken = (await cookies()).get('session_access_token')?.value; 
-    
+    console.log('🔑 accessToken from cookie:', accessToken);
     if (!accessToken){
         accessToken = await handleRefresh();
     }
