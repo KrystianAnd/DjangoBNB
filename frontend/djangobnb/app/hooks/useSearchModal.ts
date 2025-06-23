@@ -17,7 +17,18 @@ interface SearchModalStore {
     close: () => void;
     query: SearchQuery;
     setQuery: (query: SearchQuery) => void;
+    reset: () => void;
 }
+
+const defaultQuery: SearchQuery = {
+    country: '',
+    checkIn: undefined,
+    checkOut: undefined,
+    guests: 1,
+    bathrooms: 0,
+    bedrooms: 0,
+    category: '',
+};
 
 const useSearchModal = create<SearchModalStore>((set) =>({
     isOpen: false,
@@ -25,15 +36,8 @@ const useSearchModal = create<SearchModalStore>((set) =>({
     open: (step) => set({isOpen: true , step: step}),
     close: () => set({isOpen: false}),
     setQuery: (query: SearchQuery) => set({query: query}),
-    query: {
-        country: '',
-        checkIn: undefined,
-        checkOut: undefined,
-        guests: 1,
-        bathrooms: 0,
-        bedrooms: 0,
-        category: '',
-    }
+    query: { ...defaultQuery },
+    reset: () => set({ query: { ...defaultQuery } }), 
 }));
 
 export default useSearchModal;

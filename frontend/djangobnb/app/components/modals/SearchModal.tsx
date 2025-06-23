@@ -33,11 +33,11 @@ const SearchModal = () =>{
             bathrooms: parseInt(numBathrooms),
             bedrooms: parseInt(numBedrooms),
             category: ''
-
         }
         searchModal.setQuery(newSearchQuery);
         searchModal.close();
     }
+    
 
     const _setDateRange = (selection : Range) => {
         if(searchModal.step === 'checkin'){

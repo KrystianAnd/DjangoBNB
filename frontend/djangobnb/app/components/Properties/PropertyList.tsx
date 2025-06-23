@@ -7,6 +7,7 @@ import useSearchModal from "@/app/hooks/useSearchModal";
 import { format } from "date-fns";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
+import CustomButton from "../forms/CustomButton";
 
 
 export type PropertyType = {
@@ -36,6 +37,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
     const checkOutDate = searchModal.query.checkOut;
     const category = searchModal.query.category;
     const [properties, setProperties] = useState<PropertyType[]>([]);
+    const router = useRouter();
 
     const markFavorite = (id: string, is_favorite: boolean) =>{
         const tmpProperties = properties.map((property: PropertyType) =>{
@@ -112,19 +114,32 @@ const PropertyList: React.FC<PropertyListProps> = ({
         getProperties();
     }, [category, searchModal.query, params]);
 
-    return(
+    return (
         <>
-            {properties.map((property) =>{
-                return(
+            {properties.length === 0 ? (
+                <div className="col-span-5 text-center">
+                    <h2 className="text-2xl font-semibold mb-4">No properties found</h2>
+                    <p className="text-gray-600">Try adjusting your search criteria or check back later.</p>
+                    <CustomButton
+                        label="Back"
+                        onClick={() => {
+                            searchModal.reset(); 
+                            router.replace('/');
+                        }}
+                        className="mt-4 max-w-xs mx-auto"    
+                    />
+                </div>
+            ) : (
+                properties.map((property) => (
                     <PropertyListItem 
                         key={property.id}
                         property={property}
                         markFavorite={(is_favorite: any) => markFavorite(property.id, is_favorite)}
                     />
-                )
-            })}
+                ))
+            )}
         </>
-    )
+    );
 }
 
 export default PropertyList;

@@ -10,19 +10,23 @@ const Categories = () => {
 
     const _setCategory = (_category: string) => {
         setCategory(_category);
-
+    
+        const currentQuery = searchModal.query || {};
+    
         const query: SearchQuery = {
-            country: searchModal.query.country,
-            checkIn: searchModal.query.checkIn,
-            checkOut: searchModal.query.checkOut,
-            guests: searchModal.query.guests,
-            bedrooms: searchModal.query.bedrooms,
-            bathrooms: searchModal.query.bathrooms,
+            country: currentQuery.country ?? '',
+            checkIn: currentQuery.checkIn ?? undefined,
+            checkOut: currentQuery.checkOut ?? undefined,
+            guests: currentQuery.guests ?? 1,
+            bedrooms: currentQuery.bedrooms ?? 0,
+            bathrooms: currentQuery.bathrooms ?? 0,
             category: _category
         }
+    
         searchModal.setQuery(query);
     }
-
+    
+    
     return(
        <div className="pt-3 cursor-pointer pb-6 flex items-center space-x-12 ">
             <div 
