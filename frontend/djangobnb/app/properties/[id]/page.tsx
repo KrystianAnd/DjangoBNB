@@ -1,3 +1,4 @@
+
 import Image from "next/image";
 import Link from "next/link";
 import ReservationSideBar from "@/app/components/Properties/ReservationSideBar";
@@ -5,10 +6,12 @@ import ReservationSideBar from "@/app/components/Properties/ReservationSideBar";
 import apiService from "@/app/services/apiService";
 import { getUserId } from "@/app/lib/actions";
 
-const PropertyDetailPage = async ({params}: {params : {id: string }}) => {
-    const property = await apiService.get(`/api/properties/${params.id}`)
+export default async function PropertyDetailPage(props: any) {
+    const params = await props.params;
+    const property = await apiService.get(`/api/properties/${params.id}`);
     const userId = await getUserId();
-    return(
+
+    return (
         <main className="max-w-[1500px] mx-auto px-6 pb-6">
             <div className="w-full h-[64vh] mt-4 overflow-hidden rounded-xl relative">
                 <Image
@@ -16,32 +19,30 @@ const PropertyDetailPage = async ({params}: {params : {id: string }}) => {
                     src={property.image_url}
                     className="object-cover w-full h-full"
                     alt="Beach house"
-
                 />
             </div>
 
-            <div className=" grid grid-cols-1 md:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                 <div className="py-6 pr-6 col-span-3">
                     <h1 className="mb-4 text-4xl">{property.title}</h1>
-
                     <span className="mb-6 block text-lg text-gray-600">
-                    {property.guests} guests - {property.bedrooms} bedrooms - {property.bathrooms} bathrooms
+                        {property.guests} guests - {property.bedrooms} bedrooms - {property.bathrooms} bathrooms
                     </span>
 
                     <hr />
 
-                    <Link 
+                    <Link
                         href={`/landlords/${property.landlord.id}`}
                         className="py-6 flex items-center space-x-4 "
                     >
-                        {property.landlord.avatar_url &&(
+                        {property.landlord.avatar_url && (
                             <Image
-                            src={property.landlord.avatar_url }
-                            width={50}
-                            height={50}
-                            className="rounded-full"
-                            alt="The User name"
-                        />
+                                src={property.landlord.avatar_url}
+                                width={50}
+                                height={50}
+                                className="rounded-full"
+                                alt="The User name"
+                            />
                         )}
                         <p><strong>{property.landlord.name}</strong> is your host</p>
                     </Link>
@@ -52,7 +53,7 @@ const PropertyDetailPage = async ({params}: {params : {id: string }}) => {
                         {property.description}
                     </div>
                 </div>
-                <ReservationSideBar 
+                <ReservationSideBar
                     userId={userId}
                     property={property}
                 />
@@ -60,5 +61,3 @@ const PropertyDetailPage = async ({params}: {params : {id: string }}) => {
         </main>
     )
 }
-
-export default PropertyDetailPage;

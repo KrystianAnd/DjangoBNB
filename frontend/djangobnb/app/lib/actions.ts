@@ -2,74 +2,84 @@
 
 import { cookies } from "next/headers";
 
-export async function handleRefresh(){
-    
-
+export async function handleRefresh() {
     const refreshToken = await getRefreshToken();
+
+    if (!refreshToken) {
+        return null;
+    }
 
     const token = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/api/auth/token/refresh/`, {
         method: 'POST',
-        body: JSON.stringify({
-            refresh: refreshToken
-        }),
+        body: JSON.stringify({ refresh: refreshToken }),
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-        }
+        },
     })
-        .then(response => response.json())
-        .then((json) => {
-            
-
-            if (json.access){
-                  cookies().set('session_access_token', json.access, {
-                    httpOnly : true,
-                    secure : process.env.NODE_ENV === 'production',
+        .then((response) => response.json())
+        .then(async (json) => {
+            if (json.access) {
+                const cookieStore = await cookies(); 
+                cookieStore.set('session_access_token', json.access, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
                     maxAge: 60 * 60,
-                    path: '/'
+                    path: '/',
                 });
-
                 return json.access;
-            }else {
-                resetAuthCookies();
+            } else {
+                return null;
             }
         })
-        .catch((error) =>{
-            
-
-            resetAuthCookies();
-        })
+        .catch(async (error) => {
+            return null;
+        });
 
     return token;
 }
 
 
 export async function handleLogin(userId: string , accessToken : string , refreshToken : string) {
-    (await cookies()).set('session_userid', userId, {
-        httpOnly : true,
-        secure : process.env.NODE_ENV === 'production',
+    const cookieStore = await cookies(); 
+
+    cookieStore.set('session_userid', userId, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
         maxAge: 60 * 60 * 24 * 7,
-        path: '/'
+        path: '/',
     });
-    (await cookies()).set('session_access_token', accessToken, {
-        httpOnly : true,
-        secure : process.env.NODE_ENV === 'production',
+    cookieStore.set('session_access_token', accessToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
         maxAge: 60 * 60,
-        path: '/'
+        path: '/',
     });
-    (await cookies()).set('session_refresh_token', refreshToken, {
-        httpOnly : true,
-        secure : process.env.NODE_ENV === 'production',
+    cookieStore.set('session_refresh_token', refreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
         maxAge: 60 * 60 * 24 * 7,
-        path: '/'
+        path: '/',
     });
-} 
+}
+
 
 export async function resetAuthCookies() {
-    const cookieStore = await cookies(); 
-    cookieStore.set('session_userid', '');
-    cookieStore.set('session_access_token', '');
-    cookieStore.set('session_refresh_token', '');
+    const cookieStore = await cookies();
+
+    cookieStore.set('session_userid', '', {
+        maxAge: 0,
+        path: '/',
+    });
+    cookieStore.set('session_access_token', '', {
+        maxAge: 0,
+        path: '/',
+    });
+    cookieStore.set('session_refresh_token', '', {
+        maxAge: 0,
+        path: '/',
+    });
+    return true;
 }
 
 export async function getUserId() {
